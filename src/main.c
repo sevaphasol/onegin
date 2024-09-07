@@ -1,42 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "sort.h"
+#include "input.h"
+#include "data.h"
+#include "output.h"
 
 const bool REVERSED = true;
 
 int main()
 {
-    FILE *fp;
-    fp = fopen("data.txt", "r");
+    FILE *file_ptr;
+    file_ptr = fopen("data.txt", "rb");
 
-    data_t data = {.height = HEIGHT, .maxlength = MAXLINE};
+    data_t data = {0};
 
-    for (int i = 0; i < HEIGHT; i++)
-    {
-        fgets(data.strings[i], data.maxlength, fp);
-        data.index[i] = i;
-    }
+    input(file_ptr, &data);
 
-    fclose(fp);
+    fclose(file_ptr);
 
-    bubble_sort(&data);
+    printf("%s\n", data.strings);
+    printf("%s\n", data.strings + 1);
+    printf("%s\n", data.strings + 2);
+    printf("%s\n", data.strings + 3);
+    printf("%s\n", data.strings + 4);
 
-    for (int i = 0; i < HEIGHT; i++)
-        printf("%s", data.strings[data.index[i]]);
+    // bubble_sort(data);
 
-    printf("\n");
+    output(&data);
 
-    for (int i = 0; i < HEIGHT; i++)
-        printf("%d \n", data.index[i]);
-
-    // for (int i = 0; i < HEIGHT; i++)
-    //     printf("%d\n", data.index[i]);
-
-    // char str1[] = "fdcba";
-    // char str2[] = "edcba";
-
-    // printf("%d\n", my_strcmp(str1, str2, REVERSED));
-
-    // printf("%ld\n", my_size_of("123\0\0\0"));
     return 0;
 }
