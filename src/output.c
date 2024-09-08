@@ -11,7 +11,6 @@ int output(data_t* data)
 
     for (int i = 0; i < data->n_strings; i++)
     {
-        printf("%p\n", data->addr[i]);
         printf("%s\n", data->addr[i]);
     }
 

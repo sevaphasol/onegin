@@ -38,13 +38,15 @@ int input(FILE* const file_ptr, data_t* const data)
 
     int string_index = 0;
 
+    data->addr[string_index] = data->strings;
+
     for (int i = 0; i < size; i++)
     {
         if (data->strings[i] == '\n')
         {
             data->strings[i] = '\0';
 
-            data->addr[string_index++] = data->strings + i;
+            data->addr[++string_index] = data->strings + i + 1;
         }
     }
 

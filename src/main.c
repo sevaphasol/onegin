@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "sort.h"
 #include "input.h"
 #include "data.h"
@@ -18,13 +19,7 @@ int main()
 
     fclose(file_ptr);
 
-    printf("%s\n", data.strings);
-    printf("%s\n", data.strings + 1);
-    printf("%s\n", data.strings + 2);
-    printf("%s\n", data.strings + 3);
-    printf("%s\n", data.strings + 4);
-
-    // bubble_sort(data);
+    // bubble_sort(&data, &strcmp);
 
     output(&data);
 
