@@ -5,6 +5,7 @@
 #include "input.h"
 #include "data.h"
 #include "output.h"
+#include "strfunc.h"
 
 const bool REVERSED = true;
 
@@ -19,7 +20,7 @@ int main()
 
     fclose(file_ptr);
 
-    // bubble_sort(&data, &strcmp);
+    bubble_sort(&data, &strcmp);
 
     output(&data);
 

@@ -11,6 +11,6 @@ int input_sort(data_t* data);
 
 int quick_sort(data_t* data);
 
-int swap_string_ptrs(const char* p1, const char* p2);
+int swap_string_ptrs(const char** p1, const char** p2);
 
 #endif

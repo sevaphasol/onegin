@@ -10,7 +10,7 @@ int input(FILE* const file_ptr, data_t* const data)
         return -1;
     }
 
-    data->strings = (char*)calloc(size, 1);
+    data->strings = (char*)calloc(size, sizeof(char));
     if (data == NULL)
     {
         return -1;
@@ -30,7 +30,7 @@ int input(FILE* const file_ptr, data_t* const data)
 
     data->n_strings = n_strings;
 
-    data->addr = (char**)calloc(n_strings, 1);
+    data->addr = (char**)calloc(n_strings, sizeof(char*));
     if (data->addr == NULL)
     {
         return -1;
@@ -40,9 +40,9 @@ int input(FILE* const file_ptr, data_t* const data)
 
     data->addr[string_index] = data->strings;
 
-    for (int i = 0; i < size; i++)
+    for (int i = 1; i < size; i++)
     {
-        if (data->strings[i] == '\n')
+        if (data->strings[i] == '\n') // if (data->strings[i] == '\n' && data->strings[i-1] != '\0')
         {
             data->strings[i] = '\0';
 
