@@ -6,23 +6,68 @@
 #include "data.h"
 #include "output.h"
 #include "strfunc.h"
+#include "colors.h"
+#include "flags.h"
 
-const bool REVERSED = true;
+static const char* INPUT_FILE = "onegin.txt";
+static const char* OUTPUT_FILE = "sorted_onegin.txt";
 
-int main()
+int main(const int argc, char* argv[])
 {
-    FILE *file_ptr;
-    file_ptr = fopen("data.txt", "rb");
+    const char* input_file = INPUT_FILE;
+    const char* output_file = OUTPUT_FILE;
+
+    if (argc == 3)
+    {
+        input_file = argv[1];
+        output_file = argv[2];
+    }
+
+    FILE *input_file_ptr;
+    input_file_ptr = fopen(input_file, "r");
+
+    flags_input_getopt(argc, argv);
+
+    if (input_file_ptr == NULL)
+    {
+        red_print("File opening error\n");
+        return -1;
+    }
 
     data_t data = {0};
 
-    input(file_ptr, &data);
+    if (input(input_file_ptr, &data) == -1)
+    {
+        red_print("File reading error\n");
+        return -1;
+    }
 
-    fclose(file_ptr);
+    fclose(input_file_ptr);
 
-    bubble_sort(&data, &strcmp);
+    if (bubble_sort(&data, &only_letter_reverse_strcmp) == -1)
+    {
+        red_print("Data sorting problem\n");
+        return -1;
+    }
 
-    output(&data);
+    FILE *output_file_ptr;
+    output_file_ptr = fopen(output_file, "w");
+
+    if (output_file_ptr == NULL)
+    {
+        red_print("File opening error\n");
+        return -1;
+    }
+
+    if (output(output_file_ptr, &data) == -1)
+    {
+        red_print("File writing error\n");
+        return -1;
+    }
+
+    fclose(output_file_ptr);
+
+    green_print("Output in %s\n", output_file);
 
     return 0;
 }

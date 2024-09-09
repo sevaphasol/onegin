@@ -16,6 +16,11 @@ int swap_string_ptrs(char** p1, char** p2)
 
 int bubble_sort(data_t* data, int (*func)(const char*, const char*))
 {
+    if (data_validation(data) == DATA_INVALID)
+        {
+            return -1;
+        }
+
     for (int i = 1; i < data->n_strings; i++)
     {
         for (int j = 0; j < data->n_strings - i; j++)

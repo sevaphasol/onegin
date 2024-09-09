@@ -1,9 +1,13 @@
 #include <stdlib.h>
+#include <assert.h>
 #include <string.h>
+#include <ctype.h>
 #include "strfunc.h"
 
 size_t my_size_of(const char* str)
 {
+    assert(str != NULL);
+
     size_t size = 0;
 
     for ( ; str[size] != '\0'; size++)
@@ -14,11 +18,17 @@ size_t my_size_of(const char* str)
 
 int reverse_strcmp(const char* str1, const char* str2)
 {
-    const char* str1_end = str1 + my_size_of(str1);
-    const char* str2_end = str2 + my_size_of(str2);
+    assert(str1 != NULL);
+    assert(str2 != NULL);
+
+    const char* str1_end = str1 + strlen(str1);
+    const char* str2_end = str2 + strlen(str2);
 
     for ( ; *str1_end == *str2_end; str1_end--, str2_end--)
     {
+        assert(str1_end >= str1);
+        assert(str2_end >= str2);
+
         if (str1_end == str1 && str2_end == str2)
         {
             return 0;
@@ -36,27 +46,81 @@ int reverse_strcmp(const char* str1, const char* str2)
     return *str1_end - *str2_end;
 }
 
-// int only_letter_strcmp(const char* str1, const char* str2)
-// {
-//     int index1 = 0;
-//     int index2 = 0;
-//     while (true)
-//     {
-//         while (!isaplha(str1[index1]) && str1[index] !='\0')
-//         {
-//             index1++;
-//         }
-//
-//         while (!isaplha(str2[index2]) && str1[index] !='\0')
-//         {
-//             index2++;
-//         }
-//
-//         if (str1[index1] != str2[index2])
-//         {
-//             break;
-//         }
-//
-//
-//     }
-// }
+int only_letter_reverse_strcmp(const char* str1, const char* str2)
+{
+    assert(str1 != NULL);
+    assert(str2 != NULL);
+
+    const char* str1_end = str1 + strlen(str1);
+    const char* str2_end = str2 + strlen(str2);
+
+    while (true)
+    {
+        assert(str1_end >= str1);
+        assert(str2_end >= str2);
+
+        if (str1_end == str1 && str2_end == str2)
+        {
+            return 0;
+        }
+        else if (str1_end == str1 && str2_end != str2)
+        {
+            return -1;
+        }
+        else if (str1_end != str1 && str2_end == str2)
+        {
+            return 1;
+        }
+
+        while (!isalpha(*str1_end) && str1_end != str1)
+        {
+            str1_end--;
+        }
+
+        while (!isalpha(*str2_end) && str2_end != str2)
+        {
+            str2_end--;
+        }
+
+        if(*str1_end != *str2_end)
+        {
+            break;
+        }
+
+        str1_end--, str2_end--;
+    }
+
+    return *str1_end - *str2_end;
+}
+
+int only_letter_strcmp(const char* str1, const char* str2)
+{
+    assert(str1 != NULL);
+    assert(str2 != NULL);
+
+    while (true)
+    {
+        if (*str1 == '\0' || *str2 == '\0')
+        {
+            break;
+        }
+
+        while (!isalpha(*str1) && *str1 != '\0')
+        {
+            str1++;
+        }
+
+        while (!isalpha(*str2) && *str2 != '\0')
+        {
+            str2++;
+        }
+
+        if (*str1 != *str2)
+        {
+            break;
+        }
+
+        str1++, str2++;
+    }
+    return *str1 - *str2;
+}

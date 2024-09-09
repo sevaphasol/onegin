@@ -3,6 +3,11 @@
         "sort.h": "c",
         "array": "c",
         "string_view": "c",
-        "initializer_list": "c"
-    }
+        "initializer_list": "c",
+        "output.h": "c",
+        "strfunc.h": "c",
+        "colors.h": "c",
+        "stddef.h": "c"
+    },
+    "makefile.configureOnOpen": true
 }

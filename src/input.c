@@ -1,9 +1,15 @@
 #include <stdlib.h>
+#include <assert.h>
 #include <sys/stat.h>
 #include "input.h"
 
 int input(FILE* const file_ptr, data_t* const data)
 {
+    if (file_ptr == NULL)
+    {
+        return -1;
+    }
+
     long size = get_file_size(file_ptr);
     if (size == -1)
     {
@@ -16,7 +22,7 @@ int input(FILE* const file_ptr, data_t* const data)
         return -1;
     }
 
-    fread(data->strings, 1, size, file_ptr);
+    fread(data->strings, sizeof(char), size, file_ptr);
 
     int n_strings = 0;
 
@@ -24,6 +30,7 @@ int input(FILE* const file_ptr, data_t* const data)
     {
         if (data->strings[i] == '\n')
         {
+            data->strings[i] = '\0';
             n_strings++;
         }
     }
@@ -33,19 +40,18 @@ int input(FILE* const file_ptr, data_t* const data)
     data->addr = (char**)calloc(n_strings, sizeof(char*));
     if (data->addr == NULL)
     {
+        free(data->strings);
         return -1;
     }
 
     int string_index = 0;
 
-    data->addr[string_index] = data->strings;
+    data->addr[0] = data->strings;
 
     for (int i = 1; i < size; i++)
     {
-        if (data->strings[i] == '\n') // if (data->strings[i] == '\n' && data->strings[i-1] != '\0')
+        if (data->strings[i] == '\0') // if (data->strings[i] == '\n' && data->strings[i-1] != '\0')
         {
-            data->strings[i] = '\0';
-
             data->addr[++string_index] = data->strings + i + 1;
         }
     }
