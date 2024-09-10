@@ -1,28 +1,34 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+#include <stdlib.h>
 #include "colors.h"
 
-void color_print(const char *color_code, const char *str, ...)
+void color_print(FILE* file, const char *color_code, const char *str, ...)
 {
+	if (file == NULL)
+	{
+		exit(-1);
+	}
+
 	va_list list;
     va_start(list, str);
 
-	set_color(color_code);
+	set_color(file, color_code);
 
-    vprintf(str, list);
+    vfprintf(file, str, list);
 
-	reset_color();
+	reset_color(file);
 
     va_end(list);
 }
 
-void set_color(const char *color_code)
+void set_color(FILE* file, const char *color_code)
 {
-	printf("%s", color_code);
+	fprintf(file, "%s", color_code);
 }
 
-void reset_color()
+void reset_color(FILE* file)
 {
-	printf(WHITE_CODE);
+	fprintf(file, WHITE_CODE);
 }

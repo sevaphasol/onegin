@@ -12,5 +12,10 @@ int data_validation(data_t* data)
         return DATA_INVALID;
     }
 
+    if (data->n_strings < 0)
+    {
+        return DATA_INVALID;
+    }
+
     return DATA_VALID;
 }

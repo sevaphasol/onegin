@@ -12,7 +12,7 @@
 static const char* INPUT_FILE = "onegin.txt";
 static const char* OUTPUT_FILE = "sorted_onegin.txt";
 
-int main(const int argc, char* argv[])
+int main(const int argc, char* argv[]) // not const char* because getopt_long get char*
 {
     const char* input_file = INPUT_FILE;
     const char* output_file = OUTPUT_FILE;
@@ -30,7 +30,7 @@ int main(const int argc, char* argv[])
 
     if (input_file_ptr == NULL)
     {
-        red_print("File opening error\n");
+        red_print(stderr, "File opening error\n");
         return -1;
     }
 
@@ -38,7 +38,7 @@ int main(const int argc, char* argv[])
 
     if (input(input_file_ptr, &data) == -1)
     {
-        red_print("File reading error\n");
+        red_print(stderr, "File reading error\n");
         return -1;
     }
 
@@ -46,7 +46,7 @@ int main(const int argc, char* argv[])
 
     if (bubble_sort(&data, &only_letter_reverse_strcmp) == -1)
     {
-        red_print("Data sorting problem\n");
+        red_print(stderr, "Data sorting problem\n");
         return -1;
     }
 
@@ -55,19 +55,19 @@ int main(const int argc, char* argv[])
 
     if (output_file_ptr == NULL)
     {
-        red_print("File opening error\n");
+        red_print(stderr, "File opening error\n");
         return -1;
     }
 
     if (output(output_file_ptr, &data) == -1)
     {
-        red_print("File writing error\n");
+        red_print(stderr, "File writing error\n");
         return -1;
     }
 
     fclose(output_file_ptr);
 
-    green_print("Output in %s\n", output_file);
+    green_print(stdout, "Output in %s\n", output_file);
 
     return 0;
 }

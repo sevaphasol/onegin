@@ -9,17 +9,17 @@
 #define PURPLE_CODE    "\033[35m"
 #define TURQUOISE_CODE "\033[36m"
 
-#define red_print(str,       ...) color_print(RED_CODE,       str, ##__VA_ARGS__)
-#define green_print(str,     ...) color_print(GREEN_CODE,     str, ##__VA_ARGS__)
-#define yellow_print(str,    ...) color_print(YELLOW_CODE,    str, ##__VA_ARGS__)
-#define blue_print(str,      ...) color_print(BLUE_CODE,      str, ##__VA_ARGS__)
-#define purple_print(str,    ...) color_print(PURPLE_CODE,    str, ##__VA_ARGS__)
-#define turquoise_print(str, ...) color_print(TURQUOISE_CODE, str, ##__VA_ARGS__)
+#define red_print(file, str,       ...) color_print(file, RED_CODE,       str, ##__VA_ARGS__)
+#define green_print(file, str,     ...) color_print(file, GREEN_CODE,     str, ##__VA_ARGS__)
+#define yellow_print(file, str,    ...) color_print(file, YELLOW_CODE,    str, ##__VA_ARGS__)
+#define blue_print(file, str,      ...) color_print(file, BLUE_CODE,      str, ##__VA_ARGS__)
+#define purple_print(file, str,    ...) color_print(file, PURPLE_CODE,    str, ##__VA_ARGS__)
+#define turquoise_print(file, str, ...) color_print(file, TURQUOISE_CODE, str, ##__VA_ARGS__)
 
-void color_print(const char *color_code, const char *str, ...);
+void color_print(FILE* file, const char *color_code, const char *str, ...);
 
-void set_color(const char *color_code);
+void set_color(FILE* file, const char *color_code);
 
-void reset_color();
+void reset_color(FILE* file);
 
 #endif // COLORS_H__

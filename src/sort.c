@@ -1,6 +1,6 @@
-#include "sort.h"
 #include <string.h>
 #include <stdlib.h>
+#include "sort.h"
 
 int swap_string_ptrs(char** p1, char** p2)
 {
@@ -20,6 +20,11 @@ int bubble_sort(data_t* data, int (*func)(const char*, const char*))
         {
             return -1;
         }
+
+    if (func == NULL)
+    {
+        return -1;
+    }
 
     for (int i = 1; i < data->n_strings; i++)
     {

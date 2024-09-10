@@ -4,18 +4,6 @@
 #include <ctype.h>
 #include "strfunc.h"
 
-size_t my_size_of(const char* str)
-{
-    assert(str != NULL);
-
-    size_t size = 0;
-
-    for ( ; str[size] != '\0'; size++)
-        ;
-
-    return size;
-}
-
 int reverse_strcmp(const char* str1, const char* str2)
 {
     assert(str1 != NULL);
