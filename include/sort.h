@@ -3,7 +3,7 @@
 #ifndef SORT_H__
 #define SORT_H__
 
-int bubble_sort(data_t* data, int (*func)(const char*, const char*));
+int bubble_sort(void* ptr, size_t count, size_t size, int (*comp)(const void*, const void*));
 
 int select_sort(data_t* data);
 

@@ -25,6 +25,7 @@ void flags_input_getopt(const int argc, char* argv[]) // not const char* because
 			case 'h':
 				flag_help();
 				break;
+
 			default:
 				red_print(stderr, "Error\n");
         }

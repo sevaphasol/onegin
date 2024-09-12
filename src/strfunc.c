@@ -81,6 +81,11 @@ int only_letter_reverse_strcmp(const char* str1, const char* str2)
     return *str1_end - *str2_end;
 }
 
+int my_strcmp(const void* str1, const void* str2)
+{
+    return strcmp((const char*) str1, (const char*) str2);
+}
+
 int only_letter_strcmp(const char* str1, const char* str2)
 {
     assert(str1 != NULL);

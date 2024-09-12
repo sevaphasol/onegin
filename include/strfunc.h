@@ -1,6 +1,8 @@
 #ifndef STRFUNC_H__
 #define STRFUNC_H__
 
+int my_strcmp(const void* str1, const void* str2);
+
 int only_letter_strcmp(const char* str1, const char* str2);
 
 int reverse_strcmp(const char* str1, const char* str2);

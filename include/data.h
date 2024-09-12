@@ -8,6 +8,8 @@ typedef struct Data
     char* strings;
     int n_strings;
     char** addr;
+    FILE* file_ptr;
+    long long file_byte_size;
 } data_t;
 
 typedef struct String

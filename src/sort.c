@@ -1,6 +1,8 @@
 #include <string.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "sort.h"
+#include "colors.h"
 
 int swap_string_ptrs(char** p1, char** p2)
 {
@@ -14,26 +16,69 @@ int swap_string_ptrs(char** p1, char** p2)
     return 0;
 }
 
-int bubble_sort(data_t* data, int (*func)(const char*, const char*))
+int bubble_sort(void* ptr, size_t count, size_t size, int (*comp)(const void*, const void*))
 {
-    if (data_validation(data) == DATA_INVALID)
-        {
-            return -1;
-        }
-
-    if (func == NULL)
+    if (ptr == NULL)
     {
+        red_print(stderr, "Data sorting problem %d\n", __LINE__);
         return -1;
     }
 
-    for (int i = 1; i < data->n_strings; i++)
+    if (comp == NULL)
     {
-        for (int j = 0; j < data->n_strings - i; j++)
+        red_print(stderr, "Data sorting problem %d\n", __LINE__);
+        return -1;
+    }
+
+    char* temp = NULL;
+
+    char *array_ptr = (char *) ptr;
+
+    for (size_t i = 1; i < count; i++)
+    {
+        for (size_t j = 0; j < count - i; j++)
         {
-            if (func(data->addr[j], data->addr[j+1]) > 0)
+            // assert(((char**)ptr)[j] != NULL);
+            // assert(((char**)ptr)[j+1] != NULL);
+
+            if ( *((char**) array_ptr + j) == NULL)
             {
-                if (swap_string_ptrs(&data->addr[j], &data->addr[j+1]) == -1)
+                red_print(stderr, "Data sorting problem %d\n", __LINE__);
+                return -1;
+            }
+
+            if ( *((char**) ptr + j + 1) == NULL)
+            {
+                red_print(stderr, "Data sorting problem %d\n", __LINE__);
+                return -1;
+            }
+
+            if (comp(*((char**) ptr + j), (array_ptr + (j + 1) * size)) > 0)
+            {
+                temp = *((char**) ptr + j);
+                // assert(temp != NULL);
+
+                if (temp == NULL)
                 {
+                    red_print(stderr, "Data sorting problem %d\n", __LINE__);
+                    return -1;
+                }
+
+                *((char**) ptr + j) = *((char**) ptr + j + 1);
+                // assert(((char**)ptr)[j] != NULL);
+
+                if (((char**) ptr)[j] == NULL)
+                {
+                    red_print(stderr, "Data sorting problem %d\n", __LINE__);
+                    return -1;
+                }
+
+                *((char**) ptr + j + 1) = temp;
+                // assert(((char**)ptr)[j+1] != NULL);
+
+                if (*((char**) ptr + j + 1) == NULL)
+                {
+                    red_print(stderr, "Data sorting problem %d\n", __LINE__);
                     return -1;
                 }
             }

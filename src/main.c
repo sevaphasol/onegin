@@ -2,14 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include "sort.h"
-#include "input.h"
+#include "scan_file.h"
 #include "data.h"
 #include "output.h"
 #include "strfunc.h"
 #include "colors.h"
 #include "flags.h"
 
-static const char* INPUT_FILE = "onegin.txt";
+static const char* INPUT_FILE  = "onegin.txt";
 static const char* OUTPUT_FILE = "sorted_onegin.txt";
 
 int main(const int argc, char* argv[]) // not const char* because getopt_long get char*
@@ -21,6 +21,20 @@ int main(const int argc, char* argv[]) // not const char* because getopt_long ge
     {
         input_file = argv[1];
         output_file = argv[2];
+    }
+    else
+    {
+        yellow_print(stdout, "\nHelp information \n"
+						     "\nThis programm will sort your text\n"
+						     "\nEnter two file names\n"
+						     "build/onegin input_file output_file\n"
+						     "\nIn case of incorrect using programm will use default files\n"
+						     "\nDefault file input — onegin.txt\n"
+						     "Default file output — sorted_onegin.txt\n\n");
+
+        red_print(stderr, "Flags reading error\n");
+
+        return -1;
     }
 
     FILE *input_file_ptr;
@@ -36,7 +50,7 @@ int main(const int argc, char* argv[]) // not const char* because getopt_long ge
 
     data_t data = {0};
 
-    if (input(input_file_ptr, &data) == -1)
+    if (read_text_out_of_file(input_file_ptr, &data) == -1)
     {
         red_print(stderr, "File reading error\n");
         return -1;
@@ -44,7 +58,7 @@ int main(const int argc, char* argv[]) // not const char* because getopt_long ge
 
     fclose(input_file_ptr);
 
-    if (bubble_sort(&data, &only_letter_reverse_strcmp) == -1)
+    if (bubble_sort(data.addr, data.n_strings, sizeof(char), my_strcmp) == -1)
     {
         red_print(stderr, "Data sorting problem\n");
         return -1;
