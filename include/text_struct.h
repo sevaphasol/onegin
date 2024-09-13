@@ -1,29 +1,29 @@
 #include <stdio.h>
 
-#ifndef DATA_H__
-#define DATA_H__
+#ifndef TEXT_STRUCT_H__
+#define TEXT_STRUCT_H__
 
-typedef struct Data
+typedef struct Text
 {
     char* strings;
     int n_strings;
     char** addr;
     FILE* file_ptr;
     long long file_byte_size;
-} data_t;
+} text_t;
 
 typedef struct String
 {
     char* string_ptr;
-    int n_chars;
+    int length;
 } string_t;
 
-typedef enum data_validation_values
+enum text_validation_values
 {
     DATA_INVALID = -1,
     DATA_VALID = 0,
-} data_val_t;
+};
 
-int data_validation(data_t* data);
+int text_validation(text_t* text);
 
-#endif
+#endif // TEXT_STRUCT_H__

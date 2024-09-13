@@ -1,87 +1,37 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "sort.h"
-#include "scan_file.h"
-#include "data.h"
-#include "output.h"
-#include "strfunc.h"
-#include "colors.h"
-#include "flags.h"
+#include "error_codes.h"
+#include "text_struct.h"
+#include "read_text_from_file.h"
+#include "write_text_in_file.h"
+#include "sort_text.h"
+#include "string_compare_functions.h"
+#include "colourful_print.h"
 
-static const char* INPUT_FILE  = "onegin.txt";
-static const char* OUTPUT_FILE = "sorted_onegin.txt";
+static const char* DEFAULT_INPUT_FILE  = "onegin.txt";
+static const char* DEFAULT_OUTPUT_FILE = "sorted_onegin.txt";
 
 int main(const int argc, char* argv[]) // not const char* because getopt_long get char*
 {
-    const char* input_file = INPUT_FILE;
-    const char* output_file = OUTPUT_FILE;
+    const char* input_file  = DEFAULT_INPUT_FILE;
+    const char* output_file = DEFAULT_OUTPUT_FILE;
 
-    if (argc == 3)
-    {
-        input_file = argv[1];
-        output_file = argv[2];
-    }
-    else
-    {
-        yellow_print(stdout, "\nHelp information \n"
-						     "\nThis programm will sort your text\n"
-						     "\nEnter two file names\n"
-						     "build/onegin input_file output_file\n"
-						     "\nIn case of incorrect using programm will use default files\n"
-						     "\nDefault file input — onegin.txt\n"
-						     "Default file output — sorted_onegin.txt\n\n");
+    text_t text = {0};
 
-        red_print(stderr, "Flags reading error\n");
-
-        return -1;
-    }
-
-    FILE *input_file_ptr;
-    input_file_ptr = fopen(input_file, "r");
-
-    flags_input_getopt(argc, argv);
-
-    if (input_file_ptr == NULL)
-    {
-        red_print(stderr, "File opening error\n");
-        return -1;
-    }
-
-    data_t data = {0};
-
-    if (read_text_out_of_file(input_file_ptr, &data) == -1)
+    if (read_text_out_of_file(argc, argv, input_file, output_file, &text) == -1)
     {
         red_print(stderr, "File reading error\n");
-        return -1;
+        return READING_FAILURE;
     }
 
-    fclose(input_file_ptr);
+    quick_sort(text.addr, text.n_strings, sizeof(char*), &my_strcmp);
 
-    if (bubble_sort(data.addr, data.n_strings, sizeof(char), my_strcmp) == -1)
-    {
-        red_print(stderr, "Data sorting problem\n");
-        return -1;
-    }
-
-    FILE *output_file_ptr;
-    output_file_ptr = fopen(output_file, "w");
-
-    if (output_file_ptr == NULL)
-    {
-        red_print(stderr, "File opening error\n");
-        return -1;
-    }
-
-    if (output(output_file_ptr, &data) == -1)
+    if (write_text_in_file(output_file, &text) == -1)
     {
         red_print(stderr, "File writing error\n");
-        return -1;
+        return WRITING_FAILURE;
     }
-
-    fclose(output_file_ptr);
-
-    green_print(stdout, "Output in %s\n", output_file);
 
     return 0;
 }

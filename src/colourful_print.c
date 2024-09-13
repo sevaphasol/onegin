@@ -2,7 +2,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <stdlib.h>
-#include "colors.h"
+#include "colourful_print.h"
 
 void color_print(FILE* file, const char *color_code, const char *str, ...)
 {

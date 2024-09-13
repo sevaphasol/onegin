@@ -2,12 +2,15 @@
 #include <assert.h>
 #include <string.h>
 #include <ctype.h>
-#include "strfunc.h"
+#include "string_compare_functions.h"
 
-int reverse_strcmp(const char* str1, const char* str2)
+int reverse_strcmp(const void* str1_void, const void* str2_void)
 {
-    assert(str1 != NULL);
-    assert(str2 != NULL);
+    assert(str1_void != NULL);
+    assert(str2_void != NULL);
+
+    const char* str1 = (const char*) str1_void;
+    const char* str2 = (const char*) str2_void;
 
     const char* str1_end = str1 + strlen(str1);
     const char* str2_end = str2 + strlen(str2);

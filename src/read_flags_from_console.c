@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <getopt.h>
-#include "colors.h"
-#include "flags.h"
+#include "colourful_print.h"
+#include "read_flags_from_console.h"
 
 void flags_input_getopt(const int argc, char* argv[]) // not const char* because getopt_long get char*
 {
