@@ -25,7 +25,7 @@ int main(const int argc, char* argv[]) // not const char* because getopt_long ge
         return READING_FAILURE;
     }
 
-    if (multiple_write_sorted_text_in_file(output_file, &text) == -1)
+    if (multiple_write_sorted_text_in_closed_file(output_file, &text) == -1)
     {
         red_print(stderr, "\nFile reading error\n");
         return WRITING_FAILURE;

@@ -6,7 +6,7 @@
 #include "string_compare_functions.h"
 #include "sort_text.h"
 
-int write_text_in_file(const char* output_file, text_t* text)
+int write_text_in_closed_file(const char* output_file, text_t* text)
 {
     FILE *output_file_ptr;
     output_file_ptr = fopen(output_file, "w");
@@ -40,7 +40,7 @@ int write_text_in_file(const char* output_file, text_t* text)
     return 0;
 }
 
-int multiple_write_sorted_text_in_file(const char* output_file, text_t* text)
+int multiple_write_sorted_text_in_closed_file(const char* output_file, text_t* text)
 {
     FILE *output_file_ptr;
     output_file_ptr = fopen(output_file, "w");
@@ -60,18 +60,9 @@ int multiple_write_sorted_text_in_file(const char* output_file, text_t* text)
 
     fputs("SORTING TEXT FROM LEFT TO RIGHT CONSIDERING ONLY LETTERS\n\n\n",output_file_ptr);
 
-    for (int i = 0; i < text->n_strings; i++)
-    {
-        assert(text->addr[i] != NULL);
+    write_text_in_opened_file(output_file_ptr, text);
 
-        if (text->addr[i][0] != '\0')
-        {
-            fputs(text->addr[i], output_file_ptr);
-            fputs("\n", output_file_ptr);
-        }
-    }
-
-    quick_sort(text->addr, text->n_strings, sizeof(char*), &reverse_strcmp);
+    quick_sort(text->addr, text->n_strings, sizeof(char*), &only_letter_reverse_strcmp);
 
     fputs("\n\n\nSORTING TEXT FROM RIGHT TO LEFT\n\n\n",output_file_ptr);
 
@@ -119,6 +110,22 @@ int multiple_write_sorted_text_in_file(const char* output_file, text_t* text)
     fclose(output_file_ptr);
 
     green_print(stdout, "Output in %s\n", output_file);
+
+    return 0;
+}
+
+int write_text_in_opened_file(FILE* output_file_ptr, text_t* text)
+{
+    for (int i = 0; i < text->n_strings; i++)
+    {
+        assert(text->addr[i] != NULL);
+
+        if (text->addr[i][0] != '\0')
+        {
+            fputs(text->addr[i], output_file_ptr);
+            fputs("\n", output_file_ptr);
+        }
+    }
 
     return 0;
 }
