@@ -25,6 +25,6 @@ int find_right(char* arr, const int size, int right_index, int middle_value, int
 
 int swap_left_and_right(char* arr, const int size, int left_index, int right_index, int middle_index);
 
-void swap_elems(char* ptr1, char* ptr2, const int size);
+void swap_elems(void* ptr1_void, void* ptr2_void, const int size);
 
 #endif // SORT_TEXT_H__

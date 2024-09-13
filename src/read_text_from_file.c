@@ -5,41 +5,22 @@
 #include "read_flags_from_console.h"
 #include "colourful_print.h"
 
-int read_text_out_of_file(const int argc, char* argv[], const char* input_file, const char* output_file, text_t* const text)
+int read_text_out_of_file(const int argc, char* argv[], const char** input_file, const char** output_file, text_t* const text)
 {
     if (argv == NULL || text == NULL)
     {
         return -1;
     }
 
-    if (argc == 3)
-    {
-        input_file  = argv[1];
-        output_file = argv[2];
-    }
-    else if (argc != 1)
-    {
-        yellow_print(stdout, "\nHelp information \n"
-						     "\nThis programm will sort your text\n"
-						     "\nEnter two file names\n"
-						     "build/onegin input_file output_file\n"
-						     "\nIn case of incorrect using programm will use default files\n"
-						     "\nDefault file input — onegin.txt\n"
-						     "Default file output — sorted_onegin.txt\n\n");
+    FILE *input_file_ptr = NULL;
 
-        red_print(stderr, "Flags reading error\n");
-
+    if (open_file(argc, argv, input_file, output_file, &input_file_ptr) == -1)
+    {
         return -1;
     }
 
-    FILE *input_file_ptr;
-    input_file_ptr = fopen(input_file, "r");
-
-    flags_input_getopt(argc, argv);
-
     if (input_file_ptr == NULL)
     {
-        red_print(stderr, "File opening error\n");
         return -1;
     }
 
@@ -54,6 +35,41 @@ int read_text_out_of_file(const int argc, char* argv[], const char* input_file, 
     fill_addr(text);
 
     fclose(input_file_ptr);
+
+    return 0;
+}
+
+int open_file(const int argc, char* argv[], const char** input_file, const char** output_file, FILE** input_file_ptr)
+{
+    if (argc == 3)
+    {
+        *input_file  = argv[1];
+        *output_file = argv[2];
+    }
+    else if (argc != 1)
+    {
+        yellow_print(stdout, "\nHelp information: \n"
+						     "\nThis programm will sort your text\n"
+						     "\nEnter two file names in console: "
+						     "build/onegin input_file output_file\n"
+						     "\nIn case of void input programm will use default files\n"
+						     "\nDefault file input — onegin.txt\n"
+						     "Default file output — sorted_onegin.txt\n");
+
+        red_print(stderr, "\nFlags reading error\n");
+
+        return -1;
+    }
+
+    *input_file_ptr = fopen(*input_file, "r");
+
+    flags_input_getopt(argc, argv);
+
+    if (input_file_ptr == NULL)
+    {
+        red_print(stderr, "\nFile opening error\n");
+        return -1;
+    }
 
     return 0;
 }

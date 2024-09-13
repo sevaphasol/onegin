@@ -195,23 +195,29 @@ int swap_left_and_right(char* arr, const int size, int left_index, int right_ind
             middle_index = left_index;
         }
 
-        swap_elems((char*)(arr + left_index*size), (char*)(arr + right_index*size), size);
+        swap_elems((void*)(arr + left_index*size), (void*)(arr + right_index*size), size);
     }
 
     return middle_index;
 }
 
-void swap_elems(char* ptr1, char* ptr2, const int size)
+void swap_elems(void* ptr1_void, void* ptr2_void, const int size)
 {
+    char* ptr1 = (char*) ptr1_void;
+    char* ptr2 = (char*) ptr2_void;
+
     char buf[size] = {0};
+
     for (int i = 0; i < size; i++)
     {
         buf[i] = *(ptr1 + i);
     }
+
     for (int i = 0; i < size; i++)
     {
         *(ptr1 + i) = *(ptr2 + i);
     }
+
     for (int i = 0; i < size; i++)
     {
         *(ptr2 + i) = buf[i];

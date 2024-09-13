@@ -19,17 +19,15 @@ int main(const int argc, char* argv[]) // not const char* because getopt_long ge
 
     text_t text = {0};
 
-    if (read_text_out_of_file(argc, argv, input_file, output_file, &text) == -1)
+    if (read_text_out_of_file(argc, argv, &input_file, &output_file, &text) == -1)
     {
-        red_print(stderr, "File reading error\n");
+        red_print(stderr, "\nFile reading error\n");
         return READING_FAILURE;
     }
 
-    quick_sort(text.addr, text.n_strings, sizeof(char*), &my_strcmp);
-
-    if (write_text_in_file(output_file, &text) == -1)
+    if (multiple_write_sorted_text_in_file(output_file, &text) == -1)
     {
-        red_print(stderr, "File writing error\n");
+        red_print(stderr, "\nFile reading error\n");
         return WRITING_FAILURE;
     }
 

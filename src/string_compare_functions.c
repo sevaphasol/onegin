@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdio.h>
 #include "string_compare_functions.h"
 
 int reverse_strcmp(const void* str1_void, const void* str2_void)
@@ -9,8 +10,11 @@ int reverse_strcmp(const void* str1_void, const void* str2_void)
     assert(str1_void != NULL);
     assert(str2_void != NULL);
 
-    const char* str1 = (const char*) str1_void;
-    const char* str2 = (const char*) str2_void;
+    const char* str1 = *((const char**) str1_void);
+    const char* str2 = *((const char**) str2_void);
+
+    assert(str1 != NULL);
+    assert(str2 != NULL);
 
     const char* str1_end = str1 + strlen(str1);
     const char* str2_end = str2 + strlen(str2);
@@ -37,13 +41,21 @@ int reverse_strcmp(const void* str1_void, const void* str2_void)
     return *str1_end - *str2_end;
 }
 
-int only_letter_reverse_strcmp(const char* str1, const char* str2)
+int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
 {
+    assert(str1_void != NULL);
+    assert(str2_void != NULL);
+
+    const char* str1 = *((const char**) str1_void);
+    const char* str2 = *((const char**) str2_void);
+
     assert(str1 != NULL);
     assert(str2 != NULL);
 
     const char* str1_end = str1 + strlen(str1);
     const char* str2_end = str2 + strlen(str2);
+
+    printf("%s - %s\n", str1, str2);
 
     while (true)
     {
@@ -78,6 +90,12 @@ int only_letter_reverse_strcmp(const char* str1, const char* str2)
             break;
         }
 
+        if (str1_end == str1 || str2_end == str2)
+        {
+            printf("pizdec\n");
+            break;
+        }
+
         str1_end--, str2_end--;
     }
 
@@ -86,11 +104,17 @@ int only_letter_reverse_strcmp(const char* str1, const char* str2)
 
 int my_strcmp(const void* str1, const void* str2)
 {
-    return strcmp((const char*) str1, (const char*) str2);
+    return strcmp(*((const char**) str1), *((const char**) str2));
 }
 
-int only_letter_strcmp(const char* str1, const char* str2)
+int only_letter_strcmp(const void* str1_void, const void* str2_void)
 {
+    assert(str1_void != NULL);
+    assert(str2_void != NULL);
+
+    const char* str1 = *((const char**) str1_void);
+    const char* str2 = *((const char**) str2_void);
+
     assert(str1 != NULL);
     assert(str2 != NULL);
 
@@ -119,4 +143,9 @@ int only_letter_strcmp(const char* str1, const char* str2)
         str1++, str2++;
     }
     return *str1 - *str2;
+}
+
+int int_compare(const void* a, const void* b)
+{
+    return *((const int*) a) - *((const int*) b);
 }

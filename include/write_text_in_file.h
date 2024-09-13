@@ -5,4 +5,6 @@
 
 int write_text_in_file(const char* output_file, text_t* text);
 
+int multiple_write_sorted_text_in_file(const char* output_file, text_t* text);
+
 #endif // WRITE_TEXT_IN_FILE_H__
