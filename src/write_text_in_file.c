@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 #include "write_text_in_file.h"
 #include "text_struct.h"
@@ -56,56 +57,25 @@ int multiple_write_sorted_text_in_closed_file(const char* output_file, text_t* t
         return -1;
     }
 
-    quick_sort(text->addr, text->n_strings, sizeof(char*), &only_letter_strcmp);
-
+    qsort(text->addr, text->n_strings, sizeof(char*), &only_letter_strcmp);
     fputs("SORTING TEXT FROM LEFT TO RIGHT CONSIDERING ONLY LETTERS\n\n\n",output_file_ptr);
-
     write_text_in_opened_file(output_file_ptr, text);
 
-    quick_sort(text->addr, text->n_strings, sizeof(char*), &only_letter_reverse_strcmp);
+    qsort(text->addr, text->n_strings, sizeof(char*), &only_letter_reverse_strcmp);
+    fputs("\n\n\nSORTING TEXT FROM RIGHT TO LEFT CONSIDERING ONLY LETTERS\n\n\n",output_file_ptr);
+    write_text_in_opened_file(output_file_ptr, text);
 
-    fputs("\n\n\nSORTING TEXT FROM RIGHT TO LEFT\n\n\n",output_file_ptr);
-
-    for (int i = 0; i < text->n_strings; i++)
-    {
-        assert(text->addr[i] != NULL);
-
-        if (text->addr[i][0] != '\0')
-        {
-            fputs(text->addr[i], output_file_ptr);
-            fputs("\n", output_file_ptr);
-        }
-    }
-
-    quick_sort(text->addr, text->n_strings, sizeof(char*), &my_strcmp);
-
+    qsort(text->addr, text->n_strings, sizeof(char*), &my_strcmp);
     fputs("\n\n\nSORTING TEXT FROM LEFT TO RIGHT\n\n\n",output_file_ptr);
+    write_text_in_opened_file(output_file_ptr, text);
 
-    for (int i = 0; i < text->n_strings; i++)
-    {
-        assert(text->addr[i] != NULL);
+    qsort(text->addr, text->n_strings, sizeof(char*), &reverse_strcmp);
+    fputs("\n\n\nSORTING TEXT FROM RIGHT TO LEFT\n\n\n",output_file_ptr);
+    write_text_in_opened_file(output_file_ptr, text);
 
-        if (text->addr[i][0] != '\0')
-        {
-            fputs(text->addr[i], output_file_ptr);
-            fputs("\n", output_file_ptr);
-        }
-    }
-
-    quick_sort(text->addr, text->n_strings, sizeof(char*), &int_compare);
-
+    qsort(text->addr, text->n_strings, sizeof(char*), &int_compare);
     fputs("\n\n\nORIGINAL TEXT\n\n\n",output_file_ptr);
-
-    for (int i = 0; i < text->n_strings; i++)
-    {
-        assert(text->addr[i] != NULL);
-
-        if (text->addr[i][0] != '\0')
-        {
-            fputs(text->addr[i], output_file_ptr);
-            fputs("\n", output_file_ptr);
-        }
-    }
+    write_text_in_opened_file(output_file_ptr, text);
 
     fclose(output_file_ptr);
 

@@ -48,14 +48,26 @@ int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
     assert(str1_void != NULL);
     assert(str2_void != NULL);
 
-    const char* str1 = *((const char**) str1_void);
-    const char* str2 = *((const char**) str2_void);
+    const char* const str1 = *((const char* const*) str1_void);
+    const char* const str2 = *((const char* const*) str2_void);
 
     assert(str1 != NULL);
     assert(str2 != NULL);
 
-    const char* str1_end = str1 + strlen(str1) - 1;
-    const char* str2_end = str2 + strlen(str2) - 1;
+    const char* str1_end = str1 + strlen(str1);
+    const char* str2_end = str2 + strlen(str2);
+
+    if (!strlen(str1))
+    {
+        return 0;
+    }
+
+    if (!strlen(str2))
+    {
+        return 0;
+    }
+
+    // printf("str1_end - %p str2_end - %p\n", str1_end, str2_end);
 
     // printf("str1_end - %p str2_end - %p\n", str1_end, str2_end);
     // printf("str1 - %p str2 - %p\n", str1, str2);
@@ -67,7 +79,7 @@ int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
         assert(str1_end >= str1);
         assert(str2_end >= str2);
 
-        printf("%d\n", __LINE__);
+        //printf("%d\n", __LINE__);
         if (str1_end == str1 && str2_end == str2)
         {
             return *str1_end - *str2_end;
@@ -81,34 +93,45 @@ int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
             return 1;
         }
 
-        printf("%d\n", __LINE__);
+        //printf("%d\n", __LINE__);
 
-
-        while (str1_end > str1 + 1 && !isalpha(*str1_end))
+        assert(str1_end >= str1);
+        assert(str2_end >= str2);
+        while (str1_end != str1 && !isalpha(*str1_end))
         {
+            assert(str1_end >= str1);
+            assert(str2_end >= str2);
+            // printf("pizdec1\n");
             str1_end--;
         }
 
-        printf("%d\n", __LINE__);
+        //printf("%d\n", __LINE__);
+        assert(str1_end >= str1);
+        assert(str2_end >= str2);
 
-
-        while (str2_end > str2 + 1 && !isalpha(*str2_end))
+        while (str2_end != str2 && !isalpha(*str2_end))
         {
+            assert(str1_end >= str1);
+            assert(str2_end >= str2);
+            // printf("pizdec2\n");
             str2_end--;
         }
 
-        printf("%d\n", __LINE__);
+        // printf("%d\n", __LINE__);
+        assert(str1_end >= str1);
+        assert(str2_end >= str2);
 
-
-        printf("str1_end - %p str2_end - %p\n", str1_end, str2_end);
-        printf("str1 - %p str2 - %p\n", str1, str2);
+        // printf("str1_end - %p str2_end - %p\n", str1_end, str2_end);
+        // printf("str1 - %p str2 - %p\n", str1, str2);
 
         if(*str1_end != *str2_end)
         {
+            assert(str1_end >= str1);
+            assert(str2_end >= str2);
             break;
         }
 
-        printf("%d\n", __LINE__);
+        // printf("%d\n", __LINE__);
 
 
         if (str1_end == str1 || str2_end == str2)
@@ -116,16 +139,17 @@ int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
             break;
         }
 
-        printf("%d\n", __LINE__);
+        // printf("%d\n", __LINE__);
 
-
+        assert(str1_end > str1);
+        assert(str2_end > str2);
         str1_end--, str2_end--;
 
-        printf("%d\n", __LINE__);
+        // printf("%d\n", __LINE__);
 
     }
 
-    printf("%d\n", __LINE__);
+    // printf("%d\n", __LINE__);
 
     return *str1_end - *str2_end;
 }
@@ -176,4 +200,37 @@ int only_letter_strcmp(const void* str1_void, const void* str2_void)
 int int_compare(const void* a, const void* b)
 {
     return *((const int*) a) - *((const int*) b);
+}
+
+int string_compare_rhyme(const void *first, const void *second)
+{
+    assert(first  != NULL);
+    assert(second != NULL);
+
+    const char *first_string  = *(const char *const *)first ;
+    const char *second_string = *(const char *const *)second;
+
+    const char *pointer_first = first_string, *pointer_second = second_string;
+
+    while(*pointer_first != '\0')
+        pointer_first++;
+
+    while(*pointer_second != '\0')
+        pointer_second++;
+
+    for(; pointer_first != first_string; pointer_first--, pointer_second--) {
+        while(!isalpha(*pointer_first) && pointer_first != first_string)
+            pointer_first--;
+
+        while(!isalpha(*pointer_second) && pointer_second != second_string)
+            pointer_second--;
+
+        if(pointer_second == second_string)
+            break;
+
+        int difference = toupper(*pointer_first) - toupper(*pointer_second);
+        if(difference)
+            return difference;
+    }
+    return toupper(*pointer_first) - toupper(*pointer_second);
 }

@@ -31,5 +31,11 @@ int main(const int argc, char* argv[]) // not const char* because getopt_long ge
         return WRITING_FAILURE;
     }
 
+//     const char* str1 = "abc??de";
+//     const char* str2 = "a??bcde";
+//
+//     int res = only_letter_reverse_strcmp(&str1, &str2);
+//     printf("%s - %s = %d", str1, str2, res);
+
     return 0;
 }
