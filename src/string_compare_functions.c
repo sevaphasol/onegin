@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
+#include "text_struct.h"
 #include "string_compare_functions.h"
 
 int reverse_strcmp(const void* str1_void, const void* str2_void)
@@ -10,14 +11,17 @@ int reverse_strcmp(const void* str1_void, const void* str2_void)
     assert(str1_void != NULL);
     assert(str2_void != NULL);
 
-    const char* str1 = *((const char**) str1_void);
-    const char* str2 = *((const char**) str2_void);
+    const char* str1 = (*((const string_t*) str1_void)).string_ptr;
+    int length1 = (*((const string_t*) str1_void)).length;
+
+    const char* str2 = (*((const string_t*) str2_void)).string_ptr;
+    int length2 = (*((const string_t*) str1_void)).length;
 
     assert(str1 != NULL);
     assert(str2 != NULL);
 
-    const char* str1_end = str1 + strlen(str1);
-    const char* str2_end = str2 + strlen(str2);
+    const char* str1_end = str1 + length1;
+    const char* str2_end = str2 + length2;
 
     for ( ; *str1_end == *str2_end; str1_end--, str2_end--)
     {
@@ -48,14 +52,18 @@ int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
     assert(str1_void != NULL);
     assert(str2_void != NULL);
 
-    const char* const str1 = *((const char* const*) str1_void);
-    const char* const str2 = *((const char* const*) str2_void);
+    const char* str1 = (*((const string_t*) str1_void)).string_ptr;
+    int length1 = (*((const string_t*) str1_void)).length;
+
+    const char* str2 = (*((const string_t*) str2_void)).string_ptr;
+    int length2 = (*((const string_t*) str1_void)).length;
+
 
     assert(str1 != NULL);
     assert(str2 != NULL);
 
-    const char* str1_end = str1 + strlen(str1);
-    const char* str2_end = str2 + strlen(str2);
+    const char* str1_end = str1 + length1;
+    const char* str2_end = str2 + length2;
 
     if (!strlen(str1))
     {
@@ -154,9 +162,9 @@ int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
     return *str1_end - *str2_end;
 }
 
-int my_strcmp(const void* str1, const void* str2)
+int my_strcmp(const void* str1_void, const void* str2_void)
 {
-    return strcmp(*((const char**) str1), *((const char**) str2));
+    return strcmp((*((const string_t*) str1_void)).string_ptr, (*((const string_t*) str2_void)).string_ptr);
 }
 
 int only_letter_strcmp(const void* str1_void, const void* str2_void)
@@ -164,8 +172,8 @@ int only_letter_strcmp(const void* str1_void, const void* str2_void)
     assert(str1_void != NULL);
     assert(str2_void != NULL);
 
-    const char* str1 = *((const char**) str1_void);
-    const char* str2 = *((const char**) str2_void);
+    const char* str1 = (*((const string_t*) str1_void)).string_ptr;
+    const char* str2 = (*((const string_t*) str2_void)).string_ptr;
 
     assert(str1 != NULL);
     assert(str2 != NULL);
@@ -197,40 +205,7 @@ int only_letter_strcmp(const void* str1_void, const void* str2_void)
     return *str1 - *str2;
 }
 
-int int_compare(const void* a, const void* b)
+int int_compare(const void* void_ptr1, const void* void_ptr2)
 {
-    return *((const int*) a) - *((const int*) b);
-}
-
-int string_compare_rhyme(const void *first, const void *second)
-{
-    assert(first  != NULL);
-    assert(second != NULL);
-
-    const char *first_string  = *(const char *const *)first ;
-    const char *second_string = *(const char *const *)second;
-
-    const char *pointer_first = first_string, *pointer_second = second_string;
-
-    while(*pointer_first != '\0')
-        pointer_first++;
-
-    while(*pointer_second != '\0')
-        pointer_second++;
-
-    for(; pointer_first != first_string; pointer_first--, pointer_second--) {
-        while(!isalpha(*pointer_first) && pointer_first != first_string)
-            pointer_first--;
-
-        while(!isalpha(*pointer_second) && pointer_second != second_string)
-            pointer_second--;
-
-        if(pointer_second == second_string)
-            break;
-
-        int difference = toupper(*pointer_first) - toupper(*pointer_second);
-        if(difference)
-            return difference;
-    }
-    return toupper(*pointer_first) - toupper(*pointer_second);
+    return (*((const string_t*) void_ptr1)).origin_number - (*((const string_t*) void_ptr2)).origin_number;
 }

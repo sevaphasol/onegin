@@ -3,8 +3,6 @@
 #ifndef SORT_TEXT_H__
 #define SORT_TEXT_H__
 
-void sort_text(void (*sort)(void* ptr, const int count, const int size, int (*comp)(const void*, const void*)), void* ptr, size_t count, size_t size, int (*comp)(const void*, const void*));
-
 int bubble_sort(void* ptr, size_t count, size_t size, int (*comp)(const void*, const void*));
 
 int select_sort(text_t* text);

@@ -114,7 +114,7 @@ int make_addr(text_t* const text)
 
     text->n_strings = n_strings;
 
-    text->addr = (char**)calloc(n_strings, sizeof(char*));
+    text->addr = (string_t*)calloc(n_strings, sizeof(string_t));
     if (text->addr == NULL)
     {
         free(text->strings);
@@ -127,14 +127,32 @@ int make_addr(text_t* const text)
 int fill_addr(text_t* const text)
 {
     int string_index = 0;
+    int left = -1; // for init i = 1
 
-    text->addr[0] = text->strings;
+    (text->addr[0]).string_ptr = text->strings;
+    // printf("%d\n", __LINE__);
+    (text->addr[0]).origin_number = string_index;
+
+    // printf("%s - ", (text->addr[string_index]).string_ptr);
+
+    // printf("%d\n", (text->addr[string_index]).origin_number);
 
     for (int i = 1; i < text->file_byte_size; i++)
     {
         if (text->strings[i] == '\0') // if (text->strings[i] == '\n' && text->strings[i-1] != '\0')
         {
-            text->addr[++string_index] = text->strings + i + 1;
+            // printf("%d\n", __LINE__);
+            (text->addr[string_index]).length = i - left - 1;
+
+            left = i;
+
+            string_index++;
+
+            (text->addr[string_index]).string_ptr = text->strings + i + 1;
+            // printf("%s - ", (text->addr[string_index]).string_ptr);
+            // printf("%d\n", __LINE__);
+            (text->addr[string_index]).origin_number = string_index;
+            // printf("%d\n", (text->addr[string_index]).origin_number);
         }
     }
 

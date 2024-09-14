@@ -3,20 +3,21 @@
 #ifndef TEXT_STRUCT_H__
 #define TEXT_STRUCT_H__
 
-typedef struct Text
-{
-    char* strings;
-    int n_strings;
-    char** addr;
-    FILE* file_ptr;
-    long long file_byte_size;
-} text_t;
-
 typedef struct String
 {
     char* string_ptr;
     int length;
+    int origin_number;
 } string_t;
+
+typedef struct Text
+{
+    char* strings;
+    int n_strings;
+    string_t* addr;
+    FILE* file_ptr;
+    long long file_byte_size;
+} text_t;
 
 enum text_validation_values
 {
