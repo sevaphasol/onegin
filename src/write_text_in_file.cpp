@@ -32,7 +32,7 @@ int write_text_in_closed_file(const char* output_file, text_t* text)
     return 0;
 }
 
-int multiple_write_sorted_text_in_closed_file(const char* output_file, text_t* text)
+int multiple_write_and_sort_text_in_closed_file(const char* output_file, text_t* text)
 {
     FILE *output_file_ptr;
     output_file_ptr = fopen(output_file, "w");
@@ -52,19 +52,19 @@ int multiple_write_sorted_text_in_closed_file(const char* output_file, text_t* t
     fputs("SORTING TEXT FROM LEFT TO RIGHT CONSIDERING ONLY LETTERS\n\n\n",output_file_ptr);
     write_text_in_opened_file(output_file_ptr, text);
 
-    quick_sort(text->addr, text->n_strings, sizeof(string_t*), &only_letter_reverse_strcmp);
+    qsort(text->addr, text->n_strings, sizeof(string_t*), &only_letter_reverse_strcmp);
     fputs("\n\n\nSORTING TEXT FROM RIGHT TO LEFT CONSIDERING ONLY LETTERS\n\n\n",output_file_ptr);
     write_text_in_opened_file(output_file_ptr, text);
 
-    quick_sort(text->addr, text->n_strings, sizeof(string_t*), &my_strcmp);
+    qsort(text->addr, text->n_strings, sizeof(string_t*), &my_strcmp);
     fputs("\n\n\nSORTING TEXT FROM LEFT TO RIGHT\n\n\n",output_file_ptr);
     write_text_in_opened_file(output_file_ptr, text);
 
-    quick_sort(text->addr, text->n_strings, sizeof(string_t*), &reverse_strcmp);
+    qsort(text->addr, text->n_strings, sizeof(string_t*), &reverse_strcmp);
     fputs("\n\n\nSORTING TEXT FROM RIGHT TO LEFT\n\n\n",output_file_ptr);
     write_text_in_opened_file(output_file_ptr, text);
 
-    quick_sort(text->addr, text->n_strings, sizeof(string_t*), &int_compare);
+    qsort(text->addr, text->n_strings, sizeof(string_t*), &origin_number_compare);
     fputs("\n\n\nORIGINAL TEXT\n\n\n",output_file_ptr);
     write_text_in_opened_file(output_file_ptr, text);
 

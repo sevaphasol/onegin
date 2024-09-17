@@ -13,8 +13,8 @@ BUILD_DIR = build
 EXECUTABLE = onegin
 EXECUTABLE_PATH = $(BUILD_DIR)/$(EXECUTABLE)
 
-SOURCE_FILES = $(wildcard $(SOURCES_DIR)/*.c)
-OBJECT_FILES = $(subst $(SOURCES_DIR), $(OBJECTS_DIR), $(SOURCE_FILES:.c=.o))
+SOURCE_FILES = $(wildcard $(SOURCES_DIR)/*.cpp)
+OBJECT_FILES = $(subst $(SOURCES_DIR), $(OBJECTS_DIR), $(SOURCE_FILES:.cpp=.o))
 
 all: $(EXECUTABLE_PATH)
 
@@ -27,7 +27,7 @@ $(OBJECTS_DIR):
 $(EXECUTABLE_PATH): $(OBJECT_FILES) $(BUILD_DIR)
 	$(CC) $(LDFLAGS) $(OBJECT_FILES) -o $@
 
-$(OBJECTS_DIR)/%.o: $(SOURCES_DIR)/%.c $(OBJECTS_DIR)
+$(OBJECTS_DIR)/%.o: $(SOURCES_DIR)/%.cpp $(OBJECTS_DIR)
 	$(CC) -c $(CFLAGS) $< -o $@
 
 clean:

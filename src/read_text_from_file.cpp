@@ -5,7 +5,7 @@
 #include "read_flags_from_console.h"
 #include "colourful_print.h"
 
-int read_text_out_of_file(const int argc, char* argv[], const char** input_file, const char** output_file, text_t* const text)
+int read_text_out_of_file(const int argc, const char* argv[], const char** input_file, const char** output_file, text_t* const text)
 {
     if (argv == NULL || text == NULL)
     {
@@ -39,7 +39,7 @@ int read_text_out_of_file(const int argc, char* argv[], const char** input_file,
     return 0;
 }
 
-int open_file(const int argc, char* argv[], const char** input_file, const char** output_file, FILE** input_file_ptr)
+int open_file(const int argc, const char* argv[], const char** input_file, const char** output_file, FILE** input_file_ptr)
 {
     if (argc == 3)
     {
@@ -63,7 +63,7 @@ int open_file(const int argc, char* argv[], const char** input_file, const char*
 
     *input_file_ptr = fopen(*input_file, "r");
 
-    flags_input_getopt(argc, argv);
+    // flags_input_getopt(argc, argv);
 
     if (input_file_ptr == NULL)
     {

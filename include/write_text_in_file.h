@@ -5,7 +5,7 @@
 
 int write_text_in_closed_file(const char* output_file, text_t* text);
 
-int multiple_write_sorted_text_in_closed_file(const char* output_file, text_t* text);
+int multiple_write_and_sort_text_in_closed_file(const char* output_file, text_t* text);
 
 int write_text_in_opened_file(FILE* output_file_ptr, text_t* text);
 

@@ -14,6 +14,8 @@ void flags_input_getopt(const int argc, char* argv[]) // not const char* because
 			{"help", no_argument, NULL, HELP},
 		};
 
+		// char* const* argv_for_getopt = (char* const*) argv;
+
 		int c = getopt_long(argc, argv, "h", long_options, &option_index);
 
 		if (c == -1)
@@ -34,6 +36,7 @@ void flags_input_getopt(const int argc, char* argv[]) // not const char* because
 
 void flag_help()
 {
+	printf("bello");
     yellow_print(stdout, "\nHelp information \n"
 						 "\nThis programm will sort your text\n"
 						 "\nEnter two file names\n"

@@ -8,6 +8,6 @@ enum long_option_vals
 
 void flag_help();
 
-void flags_input_getopt(const int argc, char *argv[]);
+void flags_input_getopt(const int argc, char* argv[]);
 
 #endif // READ_FLAGS_FROM_CONSOLE_H__

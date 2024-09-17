@@ -45,8 +45,6 @@ int reverse_strcmp(const void* str1_void, const void* str2_void)
     return *str1_end - *str2_end;
 }
 
-
-
 int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
 {
     assert(str1_void != NULL);
@@ -75,19 +73,11 @@ int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
         return 0;
     }
 
-    // printf("str1_end - %p str2_end - %p\n", str1_end, str2_end);
-
-    // printf("str1_end - %p str2_end - %p\n", str1_end, str2_end);
-    // printf("str1 - %p str2 - %p\n", str1, str2);
-
-    // printf("%s - %s", str1, str2);
-
     while (true)
     {
         assert(str1_end >= str1);
         assert(str2_end >= str2);
 
-        //printf("%d\n", __LINE__);
         if (str1_end == str1 && str2_end == str2)
         {
             return *str1_end - *str2_end;
@@ -101,19 +91,15 @@ int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
             return 1;
         }
 
-        //printf("%d\n", __LINE__);
-
         assert(str1_end >= str1);
         assert(str2_end >= str2);
         while (str1_end != str1 && !isalpha(*str1_end))
         {
             assert(str1_end >= str1);
             assert(str2_end >= str2);
-            // printf("pizdec1\n");
             str1_end--;
         }
 
-        //printf("%d\n", __LINE__);
         assert(str1_end >= str1);
         assert(str2_end >= str2);
 
@@ -121,16 +107,11 @@ int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
         {
             assert(str1_end >= str1);
             assert(str2_end >= str2);
-            // printf("pizdec2\n");
             str2_end--;
         }
 
-        // printf("%d\n", __LINE__);
         assert(str1_end >= str1);
         assert(str2_end >= str2);
-
-        // printf("str1_end - %p str2_end - %p\n", str1_end, str2_end);
-        // printf("str1 - %p str2 - %p\n", str1, str2);
 
         if(*str1_end != *str2_end)
         {
@@ -139,25 +120,16 @@ int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
             break;
         }
 
-        // printf("%d\n", __LINE__);
-
-
         if (str1_end == str1 || str2_end == str2)
         {
             break;
         }
 
-        // printf("%d\n", __LINE__);
-
         assert(str1_end > str1);
         assert(str2_end > str2);
         str1_end--, str2_end--;
 
-        // printf("%d\n", __LINE__);
-
     }
-
-    // printf("%d\n", __LINE__);
 
     return *str1_end - *str2_end;
 }
@@ -205,7 +177,7 @@ int only_letter_strcmp(const void* str1_void, const void* str2_void)
     return *str1 - *str2;
 }
 
-int int_compare(const void* void_ptr1, const void* void_ptr2)
+int origin_number_compare(const void* void_ptr1, const void* void_ptr2)
 {
     return (*((const string_t* const*) void_ptr1))->origin_number - (*((const string_t* const*) void_ptr2))->origin_number;
 }
