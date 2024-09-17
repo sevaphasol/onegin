@@ -14,7 +14,8 @@ typedef struct Text
 {
     char* strings;
     int n_strings;
-    string_t* addr;
+    string_t* struct_strings;
+    string_t** addr;
     FILE* file_ptr;
     long long file_byte_size;
 } text_t;

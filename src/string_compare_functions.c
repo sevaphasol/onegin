@@ -11,11 +11,11 @@ int reverse_strcmp(const void* str1_void, const void* str2_void)
     assert(str1_void != NULL);
     assert(str2_void != NULL);
 
-    const char* str1 = (*((const string_t*) str1_void)).string_ptr;
-    int length1 = (*((const string_t*) str1_void)).length;
+    const char* str1 = (*((const string_t* const*) str1_void))->string_ptr;
+    int length1 = (*((const string_t* const*) str1_void))->length;
 
-    const char* str2 = (*((const string_t*) str2_void)).string_ptr;
-    int length2 = (*((const string_t*) str1_void)).length;
+    const char* str2 = (*((const string_t* const*) str2_void))->string_ptr;
+    int length2 = (*((const string_t* const*) str1_void))->length;
 
     assert(str1 != NULL);
     assert(str2 != NULL);
@@ -52,11 +52,11 @@ int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
     assert(str1_void != NULL);
     assert(str2_void != NULL);
 
-    const char* str1 = (*((const string_t*) str1_void)).string_ptr;
-    int length1 = (*((const string_t*) str1_void)).length;
+    const char* str1 = (*((const string_t* const*) str1_void))->string_ptr;
+    int length1 = (*((const string_t* const*) str1_void))->length;
 
-    const char* str2 = (*((const string_t*) str2_void)).string_ptr;
-    int length2 = (*((const string_t*) str1_void)).length;
+    const char* str2 = (*((const string_t* const*) str2_void))->string_ptr;
+    int length2 = (*((const string_t* const*) str1_void))->length;
 
 
     assert(str1 != NULL);
@@ -164,7 +164,7 @@ int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
 
 int my_strcmp(const void* str1_void, const void* str2_void)
 {
-    return strcmp((*((const string_t*) str1_void)).string_ptr, (*((const string_t*) str2_void)).string_ptr);
+    return strcmp((*((const string_t* const*) str1_void))->string_ptr, (*((const string_t* const*) str2_void))->string_ptr);
 }
 
 int only_letter_strcmp(const void* str1_void, const void* str2_void)
@@ -172,8 +172,8 @@ int only_letter_strcmp(const void* str1_void, const void* str2_void)
     assert(str1_void != NULL);
     assert(str2_void != NULL);
 
-    const char* str1 = (*((const string_t*) str1_void)).string_ptr;
-    const char* str2 = (*((const string_t*) str2_void)).string_ptr;
+    const char* str1 = (*((const string_t* const*) str1_void))->string_ptr;
+    const char* str2 = (*((const string_t* const*) str2_void))->string_ptr;
 
     assert(str1 != NULL);
     assert(str2 != NULL);
@@ -207,5 +207,5 @@ int only_letter_strcmp(const void* str1_void, const void* str2_void)
 
 int int_compare(const void* void_ptr1, const void* void_ptr2)
 {
-    return (*((const string_t*) void_ptr1)).origin_number - (*((const string_t*) void_ptr2)).origin_number;
+    return (*((const string_t* const*) void_ptr1))->origin_number - (*((const string_t* const*) void_ptr2))->origin_number;
 }

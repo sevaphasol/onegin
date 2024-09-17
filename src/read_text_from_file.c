@@ -90,7 +90,7 @@ int get_file_size(FILE* const file_ptr, text_t* const text)
 
 int make_text(FILE* const file_ptr, text_t* const text)
 {
-    text->strings = (char*)calloc(text->file_byte_size, sizeof(char));
+    text->strings = (char*) calloc(text->file_byte_size, sizeof(char));
     if (text == NULL)
     {
         return -1;
@@ -114,8 +114,11 @@ int make_addr(text_t* const text)
 
     text->n_strings = n_strings;
 
-    text->addr = (string_t*)calloc(n_strings, sizeof(string_t));
-    if (text->addr == NULL)
+    text->struct_strings = (string_t*) calloc(n_strings, sizeof(string_t));
+
+    text->addr = (string_t**) calloc(n_strings, sizeof(string_t*));
+
+    if (text->struct_strings == NULL)
     {
         free(text->strings);
         return -1;
@@ -129,9 +132,11 @@ int fill_addr(text_t* const text)
     int string_index = 0;
     int left = -1; // for init i = 1
 
-    (text->addr[0]).string_ptr = text->strings;
+    (text->struct_strings[0]).string_ptr = text->strings;
     // printf("%d\n", __LINE__);
-    (text->addr[0]).origin_number = string_index;
+    (text->struct_strings[0]).origin_number = string_index;
+
+    text->addr[0] = &(text->struct_strings[0]);
 
     // printf("%s - ", (text->addr[string_index]).string_ptr);
 
@@ -142,17 +147,20 @@ int fill_addr(text_t* const text)
         if (text->strings[i] == '\0') // if (text->strings[i] == '\n' && text->strings[i-1] != '\0')
         {
             // printf("%d\n", __LINE__);
-            (text->addr[string_index]).length = i - left - 1;
+            (text->struct_strings[string_index]).length = i - left - 1;
+
+            text->addr[string_index] = &(text->struct_strings[string_index]);
 
             left = i;
 
             string_index++;
 
-            (text->addr[string_index]).string_ptr = text->strings + i + 1;
+            (text->struct_strings[string_index]).string_ptr = text->strings + i + 1;
             // printf("%s - ", (text->addr[string_index]).string_ptr);
             // printf("%d\n", __LINE__);
-            (text->addr[string_index]).origin_number = string_index;
+            (text->struct_strings[string_index]).origin_number = string_index;
             // printf("%d\n", (text->addr[string_index]).origin_number);
+            text->addr[string_index] = &(text->struct_strings[string_index]);
         }
     }
 

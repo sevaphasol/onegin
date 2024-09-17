@@ -48,23 +48,23 @@ int multiple_write_sorted_text_in_closed_file(const char* output_file, text_t* t
         return -1;
     }
 
-    quick_sort(text->addr, text->n_strings, sizeof(string_t), &only_letter_strcmp);
+    qsort(text->addr, text->n_strings, sizeof(string_t*), &only_letter_strcmp);
     fputs("SORTING TEXT FROM LEFT TO RIGHT CONSIDERING ONLY LETTERS\n\n\n",output_file_ptr);
     write_text_in_opened_file(output_file_ptr, text);
 
-    quick_sort(text->addr, text->n_strings, sizeof(string_t), &only_letter_reverse_strcmp);
+    quick_sort(text->addr, text->n_strings, sizeof(string_t*), &only_letter_reverse_strcmp);
     fputs("\n\n\nSORTING TEXT FROM RIGHT TO LEFT CONSIDERING ONLY LETTERS\n\n\n",output_file_ptr);
     write_text_in_opened_file(output_file_ptr, text);
 
-    quick_sort(text->addr, text->n_strings, sizeof(string_t), &my_strcmp);
+    quick_sort(text->addr, text->n_strings, sizeof(string_t*), &my_strcmp);
     fputs("\n\n\nSORTING TEXT FROM LEFT TO RIGHT\n\n\n",output_file_ptr);
     write_text_in_opened_file(output_file_ptr, text);
 
-    quick_sort(text->addr, text->n_strings, sizeof(string_t), &reverse_strcmp);
+    quick_sort(text->addr, text->n_strings, sizeof(string_t*), &reverse_strcmp);
     fputs("\n\n\nSORTING TEXT FROM RIGHT TO LEFT\n\n\n",output_file_ptr);
     write_text_in_opened_file(output_file_ptr, text);
 
-    quick_sort(text->addr, text->n_strings, sizeof(string_t), &int_compare);
+    quick_sort(text->addr, text->n_strings, sizeof(string_t*), &int_compare);
     fputs("\n\n\nORIGINAL TEXT\n\n\n",output_file_ptr);
     write_text_in_opened_file(output_file_ptr, text);
 
@@ -79,11 +79,11 @@ int write_text_in_opened_file(FILE* output_file_ptr, text_t* text)
 {
     for (int i = 0; i < text->n_strings; i++)
     {
-        assert((text->addr[i]).string_ptr != NULL);
+        assert((text->addr[i])->string_ptr != NULL);
 
-        if ((text->addr[i]).string_ptr[0] != '\0')
+        if ((text->addr[i])->string_ptr[0] != '\0')
         {
-            fputs((text->addr[i]).string_ptr, output_file_ptr);
+            fputs((text->addr[i])->string_ptr, output_file_ptr);
             fputs("\n", output_file_ptr);
         }
     }

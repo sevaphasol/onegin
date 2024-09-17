@@ -9,11 +9,9 @@ int select_sort(text_t* text);
 
 int input_sort(text_t* text);
 
-int quick_sort(text_t* text);
-
 int swap_string_ptrs(const char** p1, const char** p2);
 
-void quick_sort(void* arr, int const count, const int size, int(* comp)(const void*, const void*));
+void quick_sort(void* arr, const int count, const int size, int(* comp)(const void*, const void*));
 
 int partition(char* arr, int const count, const int size, int(* comp)(const void*, const void*));
 

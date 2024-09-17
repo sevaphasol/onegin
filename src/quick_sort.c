@@ -25,16 +25,39 @@ int partition(char* arr, const int count, const int size, int(* comp)(const void
 
     int middle_value = *(arr + middle_index*size);
 
+    int state = 0;
+
     while (left_index < right_index)
     {
         left_index = find_left(arr, size, left_index, middle_index, comp);
 
         right_index = find_right(arr, size, right_index, middle_index, comp);
 
-        middle_index = swap_left_and_right(arr, size, left_index, right_index, middle_index);
+        if (*(arr + left_index*size) == *(arr + middle_index*size) && // bag with arr5
+            *(arr + right_index*size) == *(arr + middle_index*size) &&
+            left_index != right_index)
+        {
+            if (left_index < middle_index)
+            {
+                left_index++;
+                state = 1;
+                continue;
+            }
+            else if (right_index > middle_index)
+            {
+                right_index--;
+                state = 1;
+                continue;
+            }
+        }
 
-        left_index++;
-        right_index--;
+        middle_index = swap_left_and_right(arr, size, left_index, right_index, middle_index);
+        if (!state)
+        {
+            left_index++;
+            right_index--;
+        }
+        state = 0;
     }
 
     return middle_index;
