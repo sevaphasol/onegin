@@ -3,36 +3,49 @@
 #include <sys/stat.h>
 #include "read_text_from_file.h"
 #include "read_flags_from_console.h"
-#include "colourful_print.h"
+#include "colorful_print.h"
+#include "error_codes.h"
 
 int read_text_out_of_file(const int argc, const char* argv[], const char** input_file, const char** output_file, text_t* const text)
 {
     if (argv == NULL || text == NULL)
     {
-        return -1;
+        return READING_FAILURE;
     }
 
     FILE *input_file_ptr = NULL;
 
-    if (open_file(argc, argv, input_file, output_file, &input_file_ptr) == -1)
+    if (open_file(argc, argv, input_file, output_file, &input_file_ptr) == OPEN_FILE_FAILURE)
     {
-        return -1;
+        return READING_FAILURE;
     }
 
     if (input_file_ptr == NULL)
     {
-        return -1;
+        return READING_FAILURE;
     }
 
-    get_file_size(input_file_ptr, text);
+    if (get_file_size(input_file_ptr, text) == GET_FILE_SIZE_FAILURE)
+    {
+        return READING_FAILURE;
+    }
 
-    make_text(input_file_ptr, text);
+    if (make_text(input_file_ptr, text) ==  ALLOCATE_FAILURE)
+    {
+        return READING_FAILURE;
+    }
 
     fread(text->strings, sizeof(char), text->file_byte_size, input_file_ptr);
 
-    make_addr(text);
+    if (make_addr(text) == ALLOCATE_FAILURE)
+    {
+        return READING_FAILURE;
+    }
 
-    fill_addr(text);
+    if (fill_addr(text) == FILL_ADDR_FAILURE)
+    {
+        return READING_FAILURE;
+    }
 
     fclose(input_file_ptr);
 
@@ -58,7 +71,7 @@ int open_file(const int argc, const char* argv[], const char** input_file, const
 
         red_print(stderr, "\nFlags reading error\n");
 
-        return -1;
+        return OPEN_FILE_FAILURE;
     }
 
     *input_file_ptr = fopen(*input_file, "r");
@@ -68,7 +81,7 @@ int open_file(const int argc, const char* argv[], const char** input_file, const
     if (input_file_ptr == NULL)
     {
         red_print(stderr, "\nFile opening error\n");
-        return -1;
+        return OPEN_FILE_FAILURE;
     }
 
     return 0;
@@ -80,7 +93,7 @@ int get_file_size(FILE* const file_ptr, text_t* const text)
 
     if (fstat(fileno(file_ptr), &file_status) < 0)
     {
-        return -1;
+        return GET_FILE_SIZE_FAILURE;
     }
 
     text->file_byte_size = file_status.st_size;
@@ -91,9 +104,11 @@ int get_file_size(FILE* const file_ptr, text_t* const text)
 int make_text(FILE* const file_ptr, text_t* const text)
 {
     text->strings = (char*) calloc(text->file_byte_size, sizeof(char));
+    text->file_ptr = file_ptr;
+
     if (text == NULL)
     {
-        return -1;
+        return ALLOCATE_FAILURE;
     }
 
     return 0;
@@ -116,12 +131,20 @@ int make_addr(text_t* const text)
 
     text->struct_strings = (string_t*) calloc(n_strings, sizeof(string_t));
 
-    text->addr = (string_t**) calloc(n_strings, sizeof(string_t*));
-
     if (text->struct_strings == NULL)
     {
         free(text->strings);
-        return -1;
+        return ALLOCATE_FAILURE;
+    }
+
+    text->addr = (string_t**) calloc(n_strings, sizeof(string_t*));
+
+    if (text->addr == NULL)
+    {
+        free(text->strings);
+        free(text->struct_strings);
+
+        return ALLOCATE_FAILURE;
     }
 
     return 0;
@@ -129,24 +152,27 @@ int make_addr(text_t* const text)
 
 int fill_addr(text_t* const text)
 {
+    if (text_validation(text) == TEXT_INVALID)
+    {
+        printf("asd\n");
+        return FILL_ADDR_FAILURE;
+    }
+
     int string_index = 0;
-    int left = -1; // for init i = 1
+    int left = -1; // for right length if first string contains one sign
 
     (text->struct_strings[0]).string_ptr = text->strings;
-    // printf("%d\n", __LINE__);
+
     (text->struct_strings[0]).origin_number = string_index;
 
     text->addr[0] = &(text->struct_strings[0]);
 
-    // printf("%s - ", (text->addr[string_index]).string_ptr);
-
-    // printf("%d\n", (text->addr[string_index]).origin_number);
-
     for (int i = 1; i < text->file_byte_size; i++)
     {
-        if (text->strings[i] == '\0') // if (text->strings[i] == '\n' && text->strings[i-1] != '\0')
+        if (text->strings[i] == '\0')
         {
-            // printf("%d\n", __LINE__);
+            (text->struct_strings[string_index]).string_ptr = text->strings + i + 1;
+
             (text->struct_strings[string_index]).length = i - left - 1;
 
             text->addr[string_index] = &(text->struct_strings[string_index]);
@@ -156,10 +182,9 @@ int fill_addr(text_t* const text)
             string_index++;
 
             (text->struct_strings[string_index]).string_ptr = text->strings + i + 1;
-            // printf("%s - ", (text->addr[string_index]).string_ptr);
-            // printf("%d\n", __LINE__);
+
             (text->struct_strings[string_index]).origin_number = string_index;
-            // printf("%d\n", (text->addr[string_index]).origin_number);
+
             text->addr[string_index] = &(text->struct_strings[string_index]);
         }
     }

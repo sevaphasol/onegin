@@ -5,11 +5,12 @@
 #include <stdio.h>
 #include "text_struct.h"
 #include "string_compare_functions.h"
+#include "debug_assert.h"
 
 int reverse_strcmp(const void* str1_void, const void* str2_void)
 {
-    assert(str1_void != NULL);
-    assert(str2_void != NULL);
+    D_ASSERT(str1_void != NULL);
+    D_ASSERT(str2_void != NULL);
 
     const char* str1 = (*((const string_t* const*) str1_void))->string_ptr;
     int length1 = (*((const string_t* const*) str1_void))->length;
@@ -17,16 +18,16 @@ int reverse_strcmp(const void* str1_void, const void* str2_void)
     const char* str2 = (*((const string_t* const*) str2_void))->string_ptr;
     int length2 = (*((const string_t* const*) str1_void))->length;
 
-    assert(str1 != NULL);
-    assert(str2 != NULL);
+    D_ASSERT(str1 != NULL);
+    D_ASSERT(str2 != NULL);
 
     const char* str1_end = str1 + length1;
     const char* str2_end = str2 + length2;
 
     for ( ; *str1_end == *str2_end; str1_end--, str2_end--)
     {
-        assert(str1_end >= str1);
-        assert(str2_end >= str2);
+        D_ASSERT(str1_end >= str1);
+        D_ASSERT(str2_end >= str2);
 
         if (str1_end == str1 && str2_end == str2)
         {
@@ -47,36 +48,35 @@ int reverse_strcmp(const void* str1_void, const void* str2_void)
 
 int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
 {
-    assert(str1_void != NULL);
-    assert(str2_void != NULL);
+    D_ASSERT(str1_void != NULL);
+    D_ASSERT(str2_void != NULL);
 
     const char* str1 = (*((const string_t* const*) str1_void))->string_ptr;
     int length1 = (*((const string_t* const*) str1_void))->length;
 
     const char* str2 = (*((const string_t* const*) str2_void))->string_ptr;
-    int length2 = (*((const string_t* const*) str1_void))->length;
+    int length2 = (*((const string_t* const*) str2_void))->length;
 
-
-    assert(str1 != NULL);
-    assert(str2 != NULL);
+    D_ASSERT(str1 != NULL);
+    D_ASSERT(str2 != NULL);
 
     const char* str1_end = str1 + length1;
     const char* str2_end = str2 + length2;
 
-    if (!strlen(str1))
+    if (!length1)
     {
         return 0;
     }
 
-    if (!strlen(str2))
+    if (!length2)
     {
         return 0;
     }
 
     while (true)
     {
-        assert(str1_end >= str1);
-        assert(str2_end >= str2);
+        D_ASSERT(str1_end >= str1);
+        D_ASSERT(str2_end >= str2);
 
         if (str1_end == str1 && str2_end == str2)
         {
@@ -91,32 +91,32 @@ int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
             return 1;
         }
 
-        assert(str1_end >= str1);
-        assert(str2_end >= str2);
+        D_ASSERT(str1_end >= str1);
+        D_ASSERT(str2_end >= str2);
         while (str1_end != str1 && !isalpha(*str1_end))
         {
-            assert(str1_end >= str1);
-            assert(str2_end >= str2);
+            D_ASSERT(str1_end >= str1);
+            D_ASSERT(str2_end >= str2);
             str1_end--;
         }
 
-        assert(str1_end >= str1);
-        assert(str2_end >= str2);
+        D_ASSERT(str1_end >= str1);
+        D_ASSERT(str2_end >= str2);
 
         while (str2_end != str2 && !isalpha(*str2_end))
         {
-            assert(str1_end >= str1);
-            assert(str2_end >= str2);
+            D_ASSERT(str1_end >= str1);
+            D_ASSERT(str2_end >= str2);
             str2_end--;
         }
 
-        assert(str1_end >= str1);
-        assert(str2_end >= str2);
+        D_ASSERT(str1_end >= str1);
+        D_ASSERT(str2_end >= str2);
 
         if(*str1_end != *str2_end)
         {
-            assert(str1_end >= str1);
-            assert(str2_end >= str2);
+            D_ASSERT(str1_end >= str1);
+            D_ASSERT(str2_end >= str2);
             break;
         }
 
@@ -125,8 +125,8 @@ int only_letter_reverse_strcmp(const void* str1_void, const void* str2_void)
             break;
         }
 
-        assert(str1_end > str1);
-        assert(str2_end > str2);
+        D_ASSERT(str1_end > str1);
+        D_ASSERT(str2_end > str2);
         str1_end--, str2_end--;
 
     }
@@ -141,14 +141,14 @@ int my_strcmp(const void* str1_void, const void* str2_void)
 
 int only_letter_strcmp(const void* str1_void, const void* str2_void)
 {
-    assert(str1_void != NULL);
-    assert(str2_void != NULL);
+    D_ASSERT(str1_void != NULL);
+    D_ASSERT(str2_void != NULL);
 
     const char* str1 = (*((const string_t* const*) str1_void))->string_ptr;
     const char* str2 = (*((const string_t* const*) str2_void))->string_ptr;
 
-    assert(str1 != NULL);
-    assert(str2 != NULL);
+    D_ASSERT(str1 != NULL);
+    D_ASSERT(str2 != NULL);
 
     while (true)
     {

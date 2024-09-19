@@ -17,15 +17,17 @@ typedef struct Text
     string_t* struct_strings;
     string_t** addr;
     FILE* file_ptr;
-    long long file_byte_size;
+    size_t file_byte_size;
 } text_t;
 
-enum text_validation_values
+enum text_validation_output_values
 {
-    DATA_INVALID = -1,
-    DATA_VALID = 0,
+    TEXT_INVALID = -1,
+    TEXT_VALID   =  0,
 };
 
 int text_validation(text_t* text);
+
+void text_free(text_t* text);
 
 #endif // TEXT_STRUCT_H__

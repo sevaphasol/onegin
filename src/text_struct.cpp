@@ -3,26 +3,44 @@
 
 int text_validation(text_t* text)
 {
+    if (text == NULL)
+    {
+        printf("%d", __LINE__);
+        return TEXT_INVALID;
+    }
+
+    if (text->struct_strings == NULL)
+    {
+        printf("%d", __LINE__);
+        return TEXT_INVALID;
+    }
+
     if (text->strings == NULL)
     {
-        free(text->strings);
-        free(text->addr);
-
-        return DATA_INVALID;
+        printf("%d", __LINE__);
+        return TEXT_INVALID;
     }
 
     if (text->addr == NULL)
     {
-        free(text->strings);
-        free(text->addr);
-
-        return DATA_INVALID;
+        printf("%d", __LINE__);
+        return TEXT_INVALID;
     }
 
-    if (text->n_strings < 0)
+    if (text->file_ptr == NULL)
     {
-        return DATA_INVALID;
+        printf("%d", __LINE__);
+        return TEXT_INVALID;
     }
 
-    return DATA_VALID;
+    return TEXT_VALID;
+}
+
+void text_free(text_t* text)
+{
+    free(text->strings);
+
+    // free(text->struct_strings);
+
+    // free(text->addr);
 }
