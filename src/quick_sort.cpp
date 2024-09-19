@@ -29,8 +29,12 @@ void quick_sort(void* arr, int count, size_t size, int(* comp)(const void*, cons
 int partition(char* arr, int count, size_t size, int(* comp)(const void*, const void*))
 {
     int left_index = 0;
+
     int right_index = count - 1;
-    int middle_index = random_index(count);
+
+    srand((int) time(NULL));
+
+    int middle_index = rand() % count;
 
     while (left_index < right_index)
     {
@@ -56,14 +60,6 @@ int partition(char* arr, int count, size_t size, int(* comp)(const void*, const 
     }
 
     return middle_index;
-}
-
-int random_index(int count)
-{
-    static int n = count;
-    int t = (int) clock();
-    n = (t*n + t) % count;
-    return n;
 }
 
 int find_left(char* arr, size_t size, int left_index, int middle_index, int(* comp)(const void *, const void*))
@@ -109,39 +105,29 @@ void swap_elems(void* ptr1_void, void* ptr2_void, size_t size)
     char* ptr1 = (char*) ptr1_void;
     char* ptr2 = (char*) ptr2_void;
 
-    long long temp8 = 0;
-    int       temp4 = 0;
-    short     temp2 = 0;
-    char      temp1 = 0;
+    int pos = 0;
 
-    for (int i = 0; i < size; i++)
+    while (pos < size)
     {
-        if (size - i >= 8)
+        if (size - pos >= 8)
         {
-            temp8 = *((long long*)(ptr1 + i));
-            *((long long*)(ptr1 + i)) = *((long long*)(ptr2 + i));
-            *((long long*) (ptr2 + i)) = temp8;
-            i += 7;
+            swap(ptr1, ptr2, pos, long long);
+            pos += 8;
         }
-        else if (size - i >= 4)
+        else if (size - pos >= 4)
         {
-            temp4 = *((int*) (ptr1 + i));
-            *((int*) (ptr1 + i)) = *((int*) (ptr2 + i));
-            *((int*) (ptr2 + i)) = temp4;
-            i += 3;
+            swap(ptr1, ptr2, pos, int);
+            pos += 4;
         }
-        else if (size - i >= 2)
+        else if (size - pos >= 2)
         {
-            temp2 = *((short*) (ptr1 + i));
-            *((short*) (ptr1 + i)) = *((short*) (ptr2 + i));
-            *((short*) (ptr2 + i)) = temp2;
-            i += 1;
+            swap(ptr1, ptr2, pos, short);
+            pos += 2;
         }
         else
         {
-            temp1 = *(ptr1 + i);
-            *(ptr1 + i) = *(ptr2 + i);
-            *(ptr2 + i) = temp1;
+            swap(ptr1, ptr2, pos, char);
+            pos += 1;
         }
     }
 }
@@ -174,3 +160,11 @@ void sort_three_elems(char* arr, size_t size, int(* comp)(const void*, const voi
         sort_two_elems(arr + size, size, comp);
     }
 }
+
+// int random_index(int count)
+// {
+//     static int n = count;
+//     int t = (int) clock();
+//     n = (t*n + t) % count;
+//     return n;
+// }

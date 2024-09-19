@@ -2,15 +2,10 @@
 #include <stdarg.h>
 #include <string.h>
 #include <stdlib.h>
-#include "colorful_print.h" //TODO error in naming (colorful_print.h)
+#include "colorful_print.h"
 
 void color_print(FILE* file, const char *color_code, const char *str, ...)
 {
-	if (file == NULL)
-	{
-		exit(-1);
-	}
-
 	va_list list;
     va_start(list, str);
 

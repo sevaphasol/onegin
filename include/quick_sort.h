@@ -3,6 +3,11 @@
 #ifndef SORT_TEXT_H__
 #define SORT_TEXT_H__
 
+#define swap(ptr1, ptr2, pos, type) ({               \
+    type tmp = *((type*)(ptr1 + pos));               \
+    *((type*)(ptr1 + pos)) = *((type*)(ptr2 + pos)); \
+    *((type*) (ptr2 + pos)) = tmp;  })               \
+
 void quick_sort(void* arr, int count, size_t size, int(* comp)(const void*, const void*));
 
 int partition(char* arr, int count, size_t size, int(* comp)(const void*, const void*));

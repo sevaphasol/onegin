@@ -90,7 +90,7 @@ int open_file(const int argc, const char* argv[], const char** input_file, const
 
 int get_file_size(FILE* const file_ptr, text_t* const text)
 {
-    struct stat file_status;
+    struct stat file_status = {0};
 
     if (fstat(fileno(file_ptr), &file_status) < 0)
     {

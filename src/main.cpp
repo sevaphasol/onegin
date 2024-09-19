@@ -12,7 +12,6 @@
 #include "colorful_print.h"
 #include "debug_assert.h"
 
-
 static const char* DEFAULT_INPUT_FILE  = "onegin.txt";
 static const char* DEFAULT_OUTPUT_FILE = "sorted_onegin.txt";
 
