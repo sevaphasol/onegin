@@ -36,7 +36,6 @@ void flags_input_getopt(const int argc, char* argv[]) // not const char* because
 
 void flag_help()
 {
-	printf("bello");
     yellow_print(stdout, "\nHelp information \n"
 						 "\nThis programm will sort your text\n"
 						 "\nEnter two file names\n"

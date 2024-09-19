@@ -40,7 +40,7 @@ void text_free(text_t* text)
 {
     free(text->strings);
 
-    // free(text->struct_strings);
+    free(text->struct_strings);
 
-    // free(text->addr);
+    free(text->addr);
 }

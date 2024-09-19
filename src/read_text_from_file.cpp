@@ -151,7 +151,6 @@ int make_addr(text_t* const text)
     return 0;
 }
 
-
 int fill_addr(text_t* const text)
 {
     if (text_validation(text) == TEXT_INVALID)
@@ -182,47 +181,3 @@ int fill_addr(text_t* const text)
 
     return 0;
 }
-
-// int fill_addr(text_t* const text)
-// {
-//     if (text_validation(text) == TEXT_INVALID)
-//     {
-//         return FILL_ADDR_FAILURE;
-//     }
-//
-//     int string_index = 0;
-//     int left = -1; // for right length if first string contains one sign
-//
-//     (text->struct_strings[0]).string_ptr = text->strings;
-//
-//     (text->struct_strings[0]).origin_number = string_index;
-//
-//     text->addr[0] = &(text->struct_strings[0]);
-//
-//     if ((text->struct_strings[0]).string_ptr[0] == '\0') //check if first sign is \0
-//     {
-//         left = -2;
-//     }
-//
-//     for (int i = 1; i < text->file_byte_size; i++)
-//     {
-//         if (text->strings[i] == '\0')
-//         {
-//             (text->struct_strings[string_index]).length = i - left - 1;
-//
-//             text->addr[string_index] = &(text->struct_strings[string_index]);
-//
-//             left = i;
-//
-//             string_index++;
-//
-//             (text->struct_strings[string_index]).string_ptr = text->strings + i + 1;
-//
-//             (text->struct_strings[string_index]).origin_number = string_index;
-//
-//             text->addr[string_index] = &(text->struct_strings[string_index]);
-//         }
-//     }
-//
-//     return 0;
-// }

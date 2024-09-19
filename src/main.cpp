@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <time.h>
 #include "error_codes.h"
 #include "text_struct.h"
 #include "read_text_from_file.h"
@@ -24,13 +25,13 @@ int main(const int argc, const char* argv[])
 
     if (read_text_out_of_file(argc, argv, &input_file, &output_file, &text) == READING_FAILURE)
     {
-        red_print(stderr, "File reading error\n");
+        red_print(stderr, "File reading error\n\n");
         return READING_FAILURE;
     }
 
     if (multiple_write_and_sort_text_in_closed_file(output_file, &text) == WRITING_FAILURE)
     {
-        red_print(stderr, "File writing error\n");
+        red_print(stderr, "File writing error\n\n");
         return WRITING_FAILURE;
     }
 

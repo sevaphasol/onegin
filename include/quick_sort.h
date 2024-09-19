@@ -15,4 +15,10 @@ int swap_left_and_right(char* arr, size_t size, int left_index, int right_index,
 
 void swap_elems(void* ptr1_void, void* ptr2_void, size_t size);
 
+int random_index(int count);
+
+void sort_two_elems(char* arr, size_t size, int(* comp)(const void*, const void*));
+
+void sort_three_elems(char* arr, size_t size, int(* comp)(const void*, const void*));
+
 #endif // SORT_TEXT_H__
