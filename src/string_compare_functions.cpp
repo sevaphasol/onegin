@@ -16,7 +16,7 @@ int reverse_strcmp(const void* str1_void, const void* str2_void)
     int length1 = (*((const string_t* const*) str1_void))->length;
 
     const char* str2 = (*((const string_t* const*) str2_void))->string_ptr;
-    int length2 = (*((const string_t* const*) str1_void))->length;
+    int length2 = (*((const string_t* const*) str2_void))->length;
 
     D_ASSERT(str1 != NULL);
     D_ASSERT(str2 != NULL);

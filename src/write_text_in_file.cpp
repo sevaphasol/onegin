@@ -46,7 +46,8 @@ int multiple_write_and_sort_text_in_closed_file(const char* output_file, text_t*
     }
 
     if (text_validation(text) == TEXT_INVALID)
-    {
+    {        printf("asd\n");
+
         return WRITING_FAILURE;
     }
 

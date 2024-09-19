@@ -25,7 +25,7 @@ int partition(char* arr, int count, size_t size, int(* comp)(const void*, const 
 
     int middle_value = *(arr + middle_index*size);
 
-    while (left_index <= right_index)
+    while (left_index < right_index)
     {
         left_index = find_left(arr, size, left_index, middle_index, comp);
 
